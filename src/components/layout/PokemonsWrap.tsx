@@ -1,33 +1,43 @@
 'use client'
 import React from 'react'
-import { PokemonApiData, PokemonsList } from '@/app/page'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { getPokemonsList } from '../../queries/pokemonApi'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 
-interface SPokemonsWrap {
-    pokemons?: PokemonsList[]
+type PokemonApiData = {
+    pokemonsList: PokemonsList[]
 }
+type PokemonsList = { id: number; name: string }
 
-export default class PokemonsWrap extends React.Component<
-    PokemonApiData,
-    SPokemonsWrap
-> {
-    constructor(props: PokemonApiData) {
-        super(props)
-        this.state = {
-            pokemons: this.props.results,
-        }
+const PokemonsWrap = () => {
+    const router = useRouter()
+    const { data } = useSuspenseQuery<PokemonApiData>(getPokemonsList)
+
+    const openPokemonDetails = (id: number, name: string) => {
+        router.push(`/?id=${id}&pokemon=${name}`)
     }
-    render() {
-        return (
-            <div className="grid grid-cols-3 gap-x-2 gap-y-14 w-full">
-                {this.state.pokemons?.map((pokemon, i) => (
-                    <div
-                        key={i}
-                        className="p-6 w-full h-40 bg-white rounded-xl shadow-lg flex items-center justify-center space-x-4"
-                    >
+    return (
+        <div className="grid grid-cols-3 gap-x-4 gap-y-8 w-full">
+            {data?.pokemonsList.map((pokemon) => (
+                <div
+                    key={pokemon.id}
+                    className="p-6 w-full h-40 bg-white rounded-xl shadow-lg flex flex-col items-center justify-center cursor-pointer"
+                    onClick={() => openPokemonDetails(pokemon.id, pokemon.name)}
+                >
+                    <Image
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                        width="75"
+                        height="75"
+                        alt=""
+                    />
+                    <span className="text-xl text-darkest-blue font-black capitalize">
                         {pokemon.name}
-                    </div>
-                ))}
-            </div>
-        )
-    }
+                    </span>
+                </div>
+            ))}
+        </div>
+    )
 }
+
+export default PokemonsWrap
