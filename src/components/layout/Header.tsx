@@ -8,21 +8,9 @@ export default class Header extends React.Component {
             {
                 text: 'Home',
             },
-            {
-                text: 'Pokedex',
-            },
-            {
-                text: 'Videogames',
-            },
-            {
-                text: 'GCC Pokemon',
-            },
-            {
-                text: 'TV Pokemon',
-            },
         ]
         return (
-            <div className="p-6 w-9/12 bg-white rounded-xl shadow-lg flex items-center justify-center space-x-4">
+            <div className="p-6 w-full bg-white rounded-xl shadow-lg flex items-center justify-center space-x-4">
                 <ul className="flex flex-wrap items-center justify-center text-gray-900 font-bold dark:text-white">
                     {menuItems.map((m, i) => (
                         <li key={i}>

@@ -22,8 +22,8 @@ const PokemonInfo = () => {
     })
 
     return (
-        <div className="p-6 w-4/12 h-full bg-white rounded-xl shadow-lg flex flex-col items-center justify-center">
-            {data && (
+        <div className="px-6 py-12 w-4/12 bg-white h-screen rounded-xl shadow-lg flex flex-col items-center justify-start">
+            {data ? (
                 <>
                     <Image
                         src={`${pokemonSpriteUrl}/${id}.png`}
@@ -39,6 +39,18 @@ const PokemonInfo = () => {
                             data.characteristics[0]
                                 .characteristics_description[0].description
                         }
+                    </span>
+                </>
+            ) : (
+                <>
+                    <Image
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`}
+                        width="150"
+                        height="150"
+                        alt=""
+                    />
+                    <span className="text-xl text-darkest-blue font-black">
+                        Select a Pokémon
                     </span>
                 </>
             )}

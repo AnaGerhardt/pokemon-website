@@ -22,3 +22,12 @@ export const getPokemonDetails = gql`
         }
     }
 `
+
+export const getPokemonSearch = gql`
+    query getPokemonsList($name: String!) {
+        pokemonsList: pokemon_v2_pokemon(where: { name: { _like: $name } }) {
+            id
+            name
+        }
+    }
+`
